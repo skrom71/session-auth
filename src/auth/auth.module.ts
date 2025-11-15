@@ -9,6 +9,8 @@ import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { EmailConfirmationModule } from './email-confirmation/email-confirmation.module'
 import { ProviderModule } from './provider/provider.module'
+import { PasswordRecoveryModule } from './password-recovery/password-recovery.module';
+import { TwoFactorAuthModule } from './two-factor-auth/two-factor-auth.module';
 
 @Module({
 	imports: [
@@ -23,7 +25,9 @@ import { ProviderModule } from './provider/provider.module'
 			useFactory: getRecaptchaConfig,
 			inject: [ConfigService]
 		}),
-		forwardRef(() => EmailConfirmationModule)
+		forwardRef(() => EmailConfirmationModule),
+		PasswordRecoveryModule,
+		TwoFactorAuthModule
 	],
 	controllers: [AuthController],
 	providers: [AuthService],
