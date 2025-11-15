@@ -20,14 +20,20 @@ export class BaseOAuthService {
 	}
 
 	public getAuthUrl() {
-		const query = new URLSearchParams({
+		const params: any = {
 			response_type: 'code',
 			client_id: this.options.client_id,
 			redirect_uri: this.getRedirectUrl(),
 			scope: (this.options.scopes ?? []).join(' '),
 			access_type: 'offline',
 			prompt: 'select_account'
-		})
+		}
+
+		if (this.options.name === 'figma') {
+			params.state = crypto.randomUUID()
+		}
+
+		const query = new URLSearchParams(params)
 
 		return `${this.options.authorize_url}?${query}`
 	}
